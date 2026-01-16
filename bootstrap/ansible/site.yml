@@ -1,0 +1,19 @@
+---
+- name: Ops Cluster Provisioning
+  hosts: all
+  become: true
+  vars:
+    k3s_version: "v1.29.3+k3s1"
+    netbird_setup_key: "{{ lookup('env', 'NETBIRD_KEY') }}"
+
+  roles:
+    - role: opencsp.k3s_node.common
+    - role: opencsp.k3s_node.netbird
+    - role: opencsp.k3s_node.k3s
+    - role: opencsp.k3s_node.cilium_prep
+    - role: opencsp.k3s_node.cilium
+    - role: opencsp.k3s_node.flux_bootstrap
+      vars:
+        github_user: "h001-lab"
+        github_repo: "OpenCSP-ops"
+        flux_path: "./cluster"
