@@ -5,14 +5,15 @@
   vars:
     k3s_version: "v1.29.3+k3s1"
     netbird_setup_key: "{{ lookup('env', 'NETBIRD_KEY') }}"
+    github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}" # contents write 권한 필요
 
   roles:
     - role: opencsp.k3s_node.common
-    - role: opencsp.k3s_node.netbird
+    - role: opencsp.k3s_node.netbird # (Optional) Netbird를 사용하지 않을 경우 주석 처리
     - role: opencsp.k3s_node.k3s
     - role: opencsp.k3s_node.cilium_prep
     - role: opencsp.k3s_node.cilium
-    - role: opencsp.k3s_node.flux_bootstrap
+    - role: opencsp.k3s_node.flux_bootstrap 
       vars:
         github_user: "h001-lab"
         github_repo: "OpenCSP-ops"
