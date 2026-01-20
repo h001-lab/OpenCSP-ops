@@ -30,3 +30,21 @@ terraform.rc
 # ansible
 inventory.ini
 
+
+# Kubernetes & Auth Keys
+*.pem
+*.key
+*.pub
+kubeconfig
+config
+.kube/
+
+# Secret Files
+secrets.yaml
+secret.yaml
+*.secret.yaml
+
+# Editor
+.DS_Store
+.vscode/
+.idea/

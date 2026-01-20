@@ -1,0 +1,23 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tetragon
+  namespace: flux-system
+spec:
+  targetNamespace: kube-system
+  interval: 30m
+  chart:
+    spec:
+      chart: tetragon
+      version: "1.6.0" # 2026-01-20, latest version
+      sourceRef:
+        kind: HelmRepository
+        name: cilium
+        namespace: flux-system
+  values:
+    tetragon:
+      enabled: true
+      btf: /sys/kernel/btf/vmlinux
+    export:
+      stdout:
+        enabled: true # 로그 확인용, 운영시에는 false (나중에 otel collector 로 변경 예정)
