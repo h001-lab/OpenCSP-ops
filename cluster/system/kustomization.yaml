@@ -4,6 +4,10 @@ resources:
   - sources/helm-repositories.yaml
   - cert-manager/namespace.yaml
   - cert-manager/release.yaml
+  - cert-manager/selfsigned-issuer.yaml
   - tetragon/namespace.yaml
   - tetragon/release.yaml
   # - tetragon/policies
+  - cilium/release.yaml
+  - cilium/pool.yaml
+  # - cilium/ingress-deployment.yaml
