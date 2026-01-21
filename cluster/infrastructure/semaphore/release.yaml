@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: semaphore
-      version: "16.0.11" # 2026-01-20 기준 최신 버전
+      version: "16.0.11"
       sourceRef:
         kind: HelmRepository
         name: semaphore
@@ -46,11 +46,3 @@ spec:
         - secretName: semaphore-tls
           hosts:
             - semaphore.avgmax.team
-
-    # resources:
-    #   limits:
-    #     cpu: 500m
-    #     memory: 512Mi
-    #   requests:
-    #     cpu: 100m
-    #     memory: 128Mi

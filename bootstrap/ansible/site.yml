@@ -18,3 +18,4 @@
         github_user: "h001-lab"
         github_repo: "OpenCSP-ops"
         flux_path: "./cluster"
+        github_token: "{{ github_token }}"
