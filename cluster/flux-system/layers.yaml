@@ -1,17 +1,34 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-system
+  name: cluster-system-base
   namespace: flux-system
 spec:
-  interval: 10m0s
-  path: ./cluster/system
+  interval: 10m
+  path: ./cluster/system/base
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
   wait: true
-  timeout: 5m0s
+  timeout: 5m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-system-configs
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: cluster-system-base
+  interval: 10m
+  path: ./cluster/system/configs
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  timeout: 5m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -19,16 +36,16 @@ metadata:
   name: cluster-infrastructure
   namespace: flux-system
 spec:
-  interval: 10m0s
+  dependsOn:
+    - name: cluster-system-configs # Issuer가 준비되어야 TLS 설정 가능
+  interval: 10m
   path: ./cluster/infrastructure
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  dependsOn:
-    - name: cluster-system  # System(Tetragon, Cert-Manager)가 준비되어야 실행
   wait: true
-  timeout: 5m0s
+  timeout: 5m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -36,12 +53,13 @@ metadata:
   name: cluster-apps
   namespace: flux-system
 spec:
-  interval: 10m0s
+  dependsOn:
+    - name: cluster-infrastructure
+  interval: 10m
   path: ./cluster/apps
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
-  dependsOn:
-    - name: cluster-infrastructure # DB, Auth가 준비되어야 실행
   wait: true
+  timeout: 5m

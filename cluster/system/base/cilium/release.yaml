@@ -15,7 +15,7 @@ spec:
         namespace: flux-system
   values:
     kubeProxyReplacement: "true"
-    k8sServiceHost: "192.168.11.44"
+    k8sServiceHost: "192.168.11.46"
     k8sServicePort: 6443
 
     k8sClientRateLimit:
@@ -26,7 +26,7 @@ spec:
       enabled: true
 
     l2announcements:
-      enabled: true
+      enabled: false
 
     externalIPs:
       enabled: true
