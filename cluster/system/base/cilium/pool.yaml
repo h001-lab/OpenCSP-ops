@@ -1,12 +1,12 @@
-apiVersion: "cilium.io/v2"
+apiVersion: "cilium.io/v2alpha1"
 kind: CiliumLoadBalancerIPPool
 metadata:
   name: ippool-prod
 spec:
-  cidrs:
-  - cidr: "192.168.11.240/29"
+  blocks:
+    - cidr: "192.168.11.240/29"
 ---
-apiVersion: "cilium.io/v2" 
+apiVersion: "cilium.io/v2alpha1"
 kind: CiliumL2AnnouncementPolicy
 metadata:
   name: l2-policy
