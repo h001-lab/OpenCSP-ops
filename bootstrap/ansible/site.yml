@@ -9,7 +9,7 @@
 
   roles:
     - role: opencsp.k3s_node.common
-    - role: opencsp.k3s_node.netbird # (Optional) Netbird를 사용하지 않을 경우 주석 처리
+    # - role: opencsp.k3s_node.netbird # (Optional) Netbird를 사용하지 않을 경우 주석 처리
     - role: opencsp.k3s_node.k3s
     - role: opencsp.k3s_node.cilium_prep
     - role: opencsp.k3s_node.cilium

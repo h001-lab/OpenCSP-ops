@@ -14,21 +14,23 @@ spec:
         name: cilium
         namespace: flux-system
   values:
-    k8sServiceHost: "192.168.11.47"
+    k8sServiceHost: "192.168.11.50"
     k8sServicePort: 6443
     kubeProxyReplacement: "true"
     
-    l2announcements:
-      enabled: true
-    
-    arpResponder: false
-    monitorAggregation: "none"
+    k8s:
+      requireIPv4PodCIDR: true
 
     k8sClientRateLimit:
       qps: 50
       burst: 100
 
-    devices: "eth0"
+    bpf:
+      extraArgs:
+        - "-Wno-macro-redefined"
+
+    devices: ""
+    installIptablesRules: true
 
     ipam:
       mode: "cluster-pool"
@@ -39,6 +41,15 @@ spec:
       enabled: true
       default: true
       loadbalancerMode: shared
+      service:
+        type: NodePort
+        nodePorts:
+          http: 30080
+          https: 30443
+    envoy:
+      enabled: true
+      
+    installCRDs: true
 
     operator:
       replicas: 1
