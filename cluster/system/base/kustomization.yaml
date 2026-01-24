@@ -4,7 +4,7 @@ resources:
   - cert-manager/namespace.yaml
   - cert-manager/release.yaml
   - cilium/release.yaml
-  - cilium/pool.yaml
+  # - cilium/pool.yaml
   - sources/helm-repositories.yaml
   - tetragon/namespace.yaml
   - tetragon/release.yaml

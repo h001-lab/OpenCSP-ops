@@ -7,3 +7,4 @@ resources:
   - teleport/release.yaml
   - semaphore/namespace.yaml
   - semaphore/release.yaml
+  - tofu-controller/release.yaml
