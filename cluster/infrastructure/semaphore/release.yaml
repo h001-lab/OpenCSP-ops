@@ -34,22 +34,23 @@ spec:
       targetPort: 3000
 
     ingress:
-      enabled: true
-      className: "cilium"
-      annotations:
-        cert-manager.io/cluster-issuer: "selfsigned-issuer"
-        ingress.cilium.io/backend-protocol: "http"
-      hosts:
-        - host: semaphore.avgmax.team
-          paths:
-            - path: /
-              pathType: Prefix
-              backend:
-                service:
-                  name: semaphore
-                  port:
-                    number: 3000
-      tls:
-        - secretName: semaphore-tls
-          hosts:
-            - semaphore.avgmax.team
+      enabled: false
+      # className: "cilium"
+      # annotations:
+      #   cert-manager.io/cluster-issuer: "selfsigned-issuer"
+      #   ingress.cilium.io/backend-protocol: "http"
+      #   ingress.cilium.io/force-https: "true"
+      # hosts:
+      #   - host: semaphore.avgmax.team
+      #     paths:
+      #       - path: /
+      #         pathType: Prefix
+      #         backend:
+      #           service:
+      #             name: semaphore
+      #             port:
+      #               number: 3000
+      # tls:
+      #   - secretName: semaphore-tls
+      #     hosts:
+      #       - semaphore.avgmax.team
