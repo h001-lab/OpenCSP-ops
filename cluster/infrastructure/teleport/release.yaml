@@ -34,17 +34,20 @@ spec:
         
     ingress:
       enabled: true
+      # 명시적으로 생성을 보장하기 위해 spec과 annotations 보강
       spec:
         ingressClassName: cilium
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
+        kubernetes.io/ingress.class: "cilium" # 클래스 어노테이션 추가
         ingress.cilium.io/backend-protocol: "HTTPS"
-        ingress.cilium.io/secure-backends: "false" 
-      rules:
-        - host: teleport.avgmax.team
-          paths:
-            - path: /
-              pathType: Prefix
+        # Multiplex 모드에서는 프록시가 자체 TLS를 처리하므로 아래 옵션이 중요할 수 있습니다.
+        ingress.cilium.io/secure-backends: "true" 
+      
+      # 도메인 충돌을 피하기 위해 루트 도메인만 명시적으로 선언
+      # 차트가 와일드카드를 내부적으로 추가하는지 확인하기 위해 우선 하나만 설정
+      hosts:
+        - teleport.avgmax.team
       tls:
         - hosts:
             - teleport.avgmax.team
