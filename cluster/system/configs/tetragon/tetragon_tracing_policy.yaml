@@ -1,0 +1,21 @@
+---
+apiVersion: cilium.io/v1alpha1
+kind: TracingPolicy
+metadata:
+  name: protect-shadow-file
+  namespace: default
+spec:
+  kprobes:
+  - call: "sys_openat"
+    syscall: true
+    args:
+    - index: 1
+      type: "string"
+    selectors:
+    - matchArgs:
+      - index: 1
+        operator: "Equal"
+        values:
+        - "/etc/shadow" # 감시할 파일
+    matchActions:
+    - action: Sigkill # 접근 시도 즉시 프로세스 사살 (테스트 땐 Log로 변경 권장)

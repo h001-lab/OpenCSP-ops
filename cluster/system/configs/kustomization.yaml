@@ -2,4 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - cert-manager/selfsigned-issuer.yaml
-  # - tetragon/policies/kustomization.yaml
+  # - cilium/cilium_network_policy.yaml
+  # - tetragon/tetragon_tracing_policy.yaml

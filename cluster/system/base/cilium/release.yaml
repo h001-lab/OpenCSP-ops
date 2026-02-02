@@ -5,6 +5,15 @@ metadata:
   namespace: kube-system
 spec:
   interval: 1h
+  # Flux가 CRD를 직접 관리하도록 정책 추가
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
   chart:
     spec:
       chart: cilium

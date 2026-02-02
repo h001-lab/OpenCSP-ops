@@ -1,0 +1,17 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: default
+spec:
+  endpointSelector: {} # 모든 파드 대상
+  ingress:
+    - {} # 명시하지 않으면 기본 차단 (Allow listing 방식)
+  egress:
+    - toEndpoints:
+      - matchLabels:
+          "k8s:io.kubernetes.pod.namespace": kube-system
+          "k8s:k8s-app": kube-dns # DNS 허용
+    - toEntities:
+      - world # 외부 인터넷 허용이 필요하면 추가 (보안 수준에 따라 제거)
