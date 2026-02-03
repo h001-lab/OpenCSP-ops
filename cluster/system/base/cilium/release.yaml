@@ -55,6 +55,7 @@ spec:
         nodePorts:
           http: 30080
           https: 30443
+      proxyProtocol: false
     envoy:
       enabled: true
       

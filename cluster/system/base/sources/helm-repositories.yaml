@@ -38,7 +38,7 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: semaphore
+  name: semaphoreui
   namespace: flux-system
 spec:
   interval: 24h
@@ -50,5 +50,5 @@ metadata:
   name: tofu-controller
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 24h
   url: https://flux-iac.github.io/tofu-controller/
