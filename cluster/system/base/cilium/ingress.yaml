@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hubble-ui
+  namespace: kube-system
+  annotations:
+    ingress.cilium.io/backend-protocol: "http"
+    cert-manager.io/cluster-issuer: "selfsigned-issuer"
+spec:
+  ingressClassName: cilium
+  tls:
+  - hosts:
+    - hubble.avgmax.team
+    secretName: hubble-ui-tls
+  rules:
+    - host: hubble.avgmax.team
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hubble-ui
+                port:
+                  number: 80

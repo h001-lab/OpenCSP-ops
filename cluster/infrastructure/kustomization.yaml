@@ -5,6 +5,7 @@ resources:
   # - zitadel/release.yaml
   - teleport/namespace.yaml
   - teleport/release.yaml
+  - teleport/ingress.yaml
   - semaphore/namespace.yaml
   - semaphore/release.yaml
   - semaphore/ingress.yaml

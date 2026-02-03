@@ -50,6 +50,7 @@ spec:
       enabled: true
       default: true
       loadbalancerMode: shared
+      ingressStatusAddress: "192.168.11.50"
       service:
         type: NodePort
         nodePorts:
