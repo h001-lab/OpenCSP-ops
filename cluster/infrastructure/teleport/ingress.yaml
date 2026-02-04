@@ -1,20 +1,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: teleport-ingress-manual
+  name: teleport-ingress
   namespace: teleport
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     kubernetes.io/ingress.class: "cilium"
     ingress.cilium.io/backend-protocol: "https"
-    ingress.cilium.io/secure-backends: "true"
 spec:
   ingressClassName: cilium
   tls:
     - hosts:
         - teleport.avgmax.team
         - "*.teleport.avgmax.team"
-      secretName: teleport-tls-all
+      secretName: teleport-tls-all-xmg2t 
   rules:
     - host: teleport.avgmax.team
       http:

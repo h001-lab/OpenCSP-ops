@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: hubble-ui
+  name: hubble-ui-ingress
   namespace: kube-system
   annotations:
     ingress.cilium.io/backend-protocol: "http"
