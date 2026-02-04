@@ -6,6 +6,7 @@ resources:
   - teleport/namespace.yaml
   - teleport/release.yaml
   - teleport/ingress.yaml
+  - teleport/secret-tls.yaml
   - semaphore/namespace.yaml
   - semaphore/release.yaml
   - semaphore/ingress.yaml

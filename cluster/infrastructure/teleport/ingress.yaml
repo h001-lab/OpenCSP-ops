@@ -13,7 +13,7 @@ spec:
     - hosts:
         - teleport.avgmax.team
         - "*.teleport.avgmax.team"
-      secretName: teleport-tls-all-xmg2t 
+      secretName: teleport-tls-all
   rules:
     - host: teleport.avgmax.team
       http:
@@ -22,7 +22,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: teleport-teleport-cluster
+                name: teleport-cluster
                 port:
                   number: 443
     - host: "*.teleport.avgmax.team"
@@ -32,6 +32,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: teleport-teleport-cluster
+                name: teleport-cluster
                 port:
                   number: 443
