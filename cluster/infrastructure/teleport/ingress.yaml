@@ -23,7 +23,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: teleport-teleport-cluster-proxy
+                name: teleport-teleport-cluster
                 port:
                   number: 443
     - host: "*.teleport.avgmax.team"
@@ -33,6 +33,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: teleport-teleport-cluster-proxy
+                name: teleport-teleport-cluster
                 port:
                   number: 443
