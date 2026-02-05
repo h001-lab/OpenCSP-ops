@@ -2,10 +2,16 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: teleport-cluster
-  namespace: flux-system
+  namespace: teleport
 spec:
   targetNamespace: teleport
   interval: 30m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
   chart:
     spec:
       chart: teleport-cluster
@@ -18,11 +24,20 @@ spec:
     - name: cert-manager
       namespace: flux-system
   values:
-    # fullnameOverride: "teleport-cluster"
+    fullnameOverride: "teleport-cluster"
     clusterName: "teleport.avgmax.team"
     proxyListenerMode: multiplex
+
+    # tls:
+    #   existingSecretName: teleport-tls-all
+
     tls:
-      existingSecretName: teleport-tls-all
+      existingSecretName: ""
+      certManager:
+        enabled: false # teleport 자체 서명 인증서 사용
+        # issuerName: "letsencrypt-prod"
+        # issuerKind: "ClusterIssuer"
+
     auth:
       teleportConfig:
         teleport:
@@ -36,16 +51,5 @@ spec:
         
     ingress:
       enabled: false
-      # spec:
-      #   ingressClassName: cilium
-      # annotations:
-      #   cert-manager.io/cluster-issuer: "letsencrypt-prod"
-      #   kubernetes.io/ingress.class: "cilium" 
-      #   ingress.cilium.io/backend-protocol: "HTTPS"
-      #   ingress.cilium.io/secure-backends: "true" 
-      # hosts:
-      #   - teleport.avgmax.team
-      # tls:
-      #   - hosts:
-      #       - teleport.avgmax.team
-      #     secretName: teleport-tls
+
+    # tests: false

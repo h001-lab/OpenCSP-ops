@@ -4,9 +4,10 @@ metadata:
   name: teleport-ingress
   namespace: teleport
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
     kubernetes.io/ingress.class: "cilium"
     ingress.cilium.io/backend-protocol: "https"
+    ingress.cilium.io/tls-passthrough: "true"
 spec:
   ingressClassName: cilium
   tls:
@@ -22,7 +23,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: teleport-cluster
+                name: teleport-teleport-cluster
                 port:
                   number: 443
     - host: "*.teleport.avgmax.team"
@@ -32,6 +33,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: teleport-cluster
+                name: teleport-teleport-cluster
                 port:
                   number: 443

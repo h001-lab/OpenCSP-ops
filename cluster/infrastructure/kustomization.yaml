@@ -4,9 +4,9 @@ resources:
   # - zitadel/namespace.yaml
   # - zitadel/release.yaml
   - teleport/namespace.yaml
+  # - teleport/secret-tls.yaml
   - teleport/release.yaml
   - teleport/ingress.yaml
-  - teleport/secret-tls.yaml
   - semaphore/namespace.yaml
   - semaphore/release.yaml
   - semaphore/ingress.yaml
