@@ -16,6 +16,7 @@ spec:
   values:
     config:
       generate: true
+      # cookie_secret: "U29tZVJhbmRvbVN0cmluZ0ZvckNvb2tpZVNlY3JldA=="
       
     admin:
       username: "admin"
@@ -31,6 +32,14 @@ spec:
         password: "db-password"
         database: semaphore
 
+    database:
+      type: postgres
+      host: postgresql
+      port: 5432
+      usernameFromSecret: false
+      passwordKey: password
+      existingSecret: postgresql
+
     service:
       type: ClusterIP
       port: 3000
@@ -38,22 +47,3 @@ spec:
 
     ingress:
       enabled: false
-      # className: "cilium"
-      # annotations:
-      #   cert-manager.io/cluster-issuer: "selfsigned-issuer"
-      #   ingress.cilium.io/backend-protocol: "http"
-      #   ingress.cilium.io/force-https: "true"
-      # hosts:
-      #   - host: semaphore.avgmax.team
-      #     paths:
-      #       - path: /
-      #         pathType: Prefix
-      #         backend:
-      #           service:
-      #             name: semaphore
-      #             port:
-      #               number: 3000
-      # tls:
-      #   - secretName: semaphore-tls
-      #     hosts:
-      #       - semaphore.avgmax.team
