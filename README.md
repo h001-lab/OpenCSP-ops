@@ -1,54 +1,55 @@
-# OpenCSP-ops
+# OpenCSP Core
 
-OpenCSP 서비스를 운영하기 위한 베이스 인프라(Proxmox VM + K3s)를 구축하는 저장소입니다. 
+A repository for building the base infrastructure (Proxmox VM + K3s) to operate the OpenCSP service.
 
-./bootstrap은 로컬 PC에서 최초 1회 실행하고, 이후 내부 인프라 구성은 ./cluster 에 작성하여 gitops로 관리합니다.
+`./bootstrap` is run once from your local PC. After that, internal infrastructure configuration is written in `./cluster` and managed via GitOps.
 
-## 전제 조건 (Prerequisites)
-* 로컬 PC에 Terraform 또는 OpenTofu 설치
-* 로컬 PC에 Ansible 설치
-* Proxmox 서버 접근 권한 (API Token, SSH Key)
-* ops 레포지토리에 fluxcd가 접근할 수 있는 (github token 생성)
+## Prerequisites
+* Terraform or OpenTofu installed on your local PC
+* Ansible installed on your local PC
+* Proxmox server access credentials (API Token, SSH Key)
+* A GitHub token granting FluxCD access to the ops repository
 
 
-## Step 1 : Control plane (Proxmox VM) 생성 (Terraform)
+## Step 1: Create Control Plane (Proxmox VM) with Terraform
 
-1. `bootstrap/terraform` 폴더로 이동합니다.
-2. 예제 파일을 복사하여 설정 파일을 생성합니다.
+1. Navigate to the `bootstrap/terraform` directory.
+2. Copy the sample file to create your configuration file.
     ```sh
     cp terraform.tfvars.sample terraform.tfvars
     ```
-3. terraform.tfvars를 열어 Proxmox 접속 정보와 노드 스펙을 입력합니다.
-4. VM을 생성합니다.
+3. Open `terraform.tfvars` and fill in your Proxmox connection details and node specs.
+4. Create the VMs.
     ```sh
-    terraform init 
-    terraform plan (optional)
+    terraform init
+    terraform plan  # optional
     terraform apply
     ```
-    > Note: 완료되면 bootstrap/ansible/inventory.ini 파일이 자동으로 생성됩니다.
+    > Note: Once complete, `bootstrap/ansible/inventory.ini` will be generated automatically.
 
-## Step 2 : Controle plane (K3s + GitOps) 내부 구성 (Ansible)
-1. bootstrap/ansible 폴더로 이동합니다.
-2. 필요한 역할을 다운로드합니다.
+## Step 2: Configure Control Plane Internals (K3s + GitOps) with Ansible
+
+1. Navigate to the `bootstrap/ansible` directory.
+2. Download the required roles.
     ```sh
     ansible-galaxy install -r requirements.yml --force
     ```
-3. 플레이북을 실행하여 K3s 클러스터를 구축하고 GitOps를 설정합니다.
+3. Run the playbook to set up the K3s cluster and configure GitOps.
     ```sh
-     ansible-playbook site.yml -e "netbird_setup_key=YOUR_ACTUAL_SETUP_KEY" -e "github_token=ghp_YOUR_TOKEN_HERE"
+    ansible-playbook site.yml -e "netbird_setup_key=YOUR_ACTUAL_SETUP_KEY" -e "github_token=ghp_YOUR_TOKEN_HERE"
     ```
-    - 플레이북 실행이 완료되면 fluxcd 관련 파일이 cluster 에 생성됨 (flux-system), 이후 내부 인프라 구성은 ./cluster 에 작성
+    - Once the playbook completes, FluxCD-related files will be created under `cluster/` (in `flux-system`). All subsequent internal infrastructure configuration should be written in `./cluster`.
 
 
-## 노드 관리 전략 (Blue/ Green Update)
+## Node Management Strategy (Blue/Green Update)
 
-노드 스펙 변경이나 OS 업그레이드가 필요할 경우, 기존 노드를 수정하지 않고 교체합니다.
+When a node spec change or OS upgrade is needed, replace the node rather than modifying it in place.
 
-1. terraform.tfvars의 k3s_nodes 목록에 새로운 노드를 추가합니다. (예: ops-worker-02 추가)
-2. terraform apply & ansible-playbook 실행 -> 새 노드가 클러스터에 합류(Join)합니다.
-3. 기존 노드(ops-worker-01)를 Drain(비우기) 합니다.
+1. Add a new node to the `k3s_nodes` list in `terraform.tfvars` (e.g., add `ops-worker-02`).
+2. Run `terraform apply` and `ansible-playbook` — the new node joins the cluster.
+3. Drain the old node (`ops-worker-01`).
     ```sh
     kubectl drain ops-worker-01 --ignore-daemonsets --delete-emptydir-data
     ```
-4. terraform.tfvars에서 기존 노드(ops-worker-01)를 삭제합니다.
-5. terraform apply 실행 -> 기존 VM이 안전하게 삭제됩니다.
+4. Remove the old node (`ops-worker-01`) from `terraform.tfvars`.
+5. Run `terraform apply` — the old VM is safely deleted.

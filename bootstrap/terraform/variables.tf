@@ -1,27 +1,27 @@
-# --- Proxmox Auth ---
+# Proxmox Auth
 variable "proxmox_api_url" {}
 variable "proxmox_api_token_id" { sensitive = true }
 variable "proxmox_api_token_secret" { sensitive = true }
 variable "proxmox_tls_insecure" { default = true }
 
-# --- Host Access (Snippet용) ---
+# Host Access (Snippet)
 variable "pve_host_address" {}
 variable "pve_ssh_user" {}
 variable "pve_ssh_private_key_path" {}
 
-# --- Common Config ---
+# Common Config
 variable "target_node" { default = "pve" }
 variable "template_name" { default = "ubuntu-2404-template" }
 variable "vm_ssh_public_key" {}
 
-# --- Network ---
+# Network
 variable "network_bridge" {
   description = "Proxmox 네트워크 브리지 인터페이스 (예: vmbr0, vmbr1)"
   type        = string
   default     = "vmbr0"
 }
 
-# --- Ansible ---
+# Ansible 
 variable "ansible_user" {
   default = "ubuntu"
 }
@@ -31,13 +31,13 @@ variable "ansible_ssh_key_path" {
   default     = "~/.ssh/id_rsa"
 }
 
-# --- storage ---
+# storage
 variable "storage_pool" { default = "local-lvm" }
 variable "snippet_storage_pool" { default = "local" }
 
-# --- Node Definition (Map) ---
-variable "k3s_nodes" {
-  description = "생성할 K3s 노드 목록"
+# Node Definition (Map)
+variable "all_vms" {
+  description = "생성할 VM 목록"
   type = map(object({
     vmid      = number
     cores     = number

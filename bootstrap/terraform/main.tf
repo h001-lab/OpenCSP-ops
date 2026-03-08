@@ -1,8 +1,7 @@
 module "ops_cluster" {
-  # GitHub Public Module 참조
   source = "git::https://github.com/h001-lab/OpenCSP-modules.git//terraform/proxmox/vm?ref=main"
 
-  for_each = var.k3s_nodes
+  for_each = var.all_vms
 
   # 변수 매핑
   vm_name   = each.key
@@ -14,6 +13,8 @@ module "ops_cluster" {
   # IP/GW (없으면 null -> DHCP)
   vm_ip = each.value.ip
   vm_gw = each.value.gw
+
+  vm_password = var.vm_password
 
   # 스토리지 설정
   storage_pool         = var.storage_pool
@@ -29,7 +30,6 @@ module "ops_cluster" {
 
   # 네트워크 브리지 전달
   vm_network_bridge = var.network_bridge
-  vm_password = var.vm_password
 }
 
 # 템플릿 파일을 사용하여 Inventory 생성
