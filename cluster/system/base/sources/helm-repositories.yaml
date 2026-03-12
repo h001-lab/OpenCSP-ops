@@ -46,6 +46,15 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
+  name: lago
+  namespace: flux-system
+spec:
+  interval: 24h
+  url: https://getlago.github.io/lago-helm-charts
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
   name: tofu-controller
   namespace: flux-system
 spec:

@@ -1,0 +1,51 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lago-front-ingress
+  namespace: lago
+  annotations:
+    cert-manager.io/cluster-issuer: "selfsigned-issuer"
+    ingress.cilium.io/backend-protocol: "http"
+spec:
+  ingressClassName: cilium
+  tls:
+  - hosts:
+    - lago.avgmax.team
+    secretName: lago-front-tls
+  rules:
+  - host: lago.avgmax.team
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: lago-front
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lago-api-ingress
+  namespace: lago
+  annotations:
+    cert-manager.io/cluster-issuer: "selfsigned-issuer"
+    ingress.cilium.io/backend-protocol: "http"
+spec:
+  ingressClassName: cilium
+  tls:
+  - hosts:
+    - lago-api.avgmax.team
+    secretName: lago-api-tls
+  rules:
+  - host: lago-api.avgmax.team
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: lago-api
+            port:
+              number: 3000

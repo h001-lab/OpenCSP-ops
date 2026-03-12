@@ -1,0 +1,49 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: zitadel
+  namespace: zitadel
+spec:
+  interval: 30m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: zitadel
+      version: "9.26.0" # 최신 버전 확인 필요
+      sourceRef:
+        kind: HelmRepository
+        name: zitadel
+        namespace: flux-system
+  dependsOn:
+    - name: cert-manager
+      namespace: flux-system
+  values:
+    zitadel:
+      masterkey: "MasterkeyNeedsToBeChanged!1234" # TODO: Secret으로 교체
+      configmapConfig:
+        ExternalDomain: zitadel.avgmax.team
+        ExternalPort: 443
+        ExternalSecure: true
+        TLS:
+          Enabled: false # ingress에서 TLS 처리
+
+    replicaCount: 1
+
+    service:
+      type: ClusterIP
+      port: 8080
+
+    ingress:
+      enabled: false # 별도 ingress.yaml로 관리
+
+    postgres:
+      # zitadel 차트 내장 postgres 미사용, 외부 DB 권장
+      # enabled: false
+
+    # 내장 CockroachDB 또는 PostgreSQL 사용 시
+    # https://github.com/zitadel/zitadel-charts/tree/main/charts/zitadel#database

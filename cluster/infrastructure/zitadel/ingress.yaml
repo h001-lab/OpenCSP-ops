@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zitadel-ingress
+  namespace: zitadel
+  annotations:
+    cert-manager.io/cluster-issuer: "selfsigned-issuer"
+    ingress.cilium.io/backend-protocol: "http"
+spec:
+  ingressClassName: cilium
+  tls:
+  - hosts:
+    - zitadel.avgmax.team
+    secretName: zitadel-tls
+  rules:
+  - host: zitadel.avgmax.team
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: zitadel
+            port:
+              number: 8080

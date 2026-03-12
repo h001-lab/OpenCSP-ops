@@ -16,6 +16,6 @@
     - role: opencsp.k3s_node.flux_bootstrap 
       vars:
         github_user: "h001-lab"
-        github_repo: "OpenCSP-ops"
+        github_repo: "OpenCSP-core"
         flux_path: "./cluster"
         github_token: "{{ github_token }}"

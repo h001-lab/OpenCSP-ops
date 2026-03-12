@@ -1,0 +1,60 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: lago
+  namespace: lago
+spec:
+  interval: 30m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: lago
+      version: "1.27.1" # 최신 버전 확인 필요
+      sourceRef:
+        kind: HelmRepository
+        name: lago
+        namespace: flux-system
+  dependsOn:
+    - name: cert-manager
+      namespace: flux-system
+  values:
+    global:
+      lago:
+        apiUrl: "https://lago-api.avgmax.team"
+        frontUrl: "https://lago.avgmax.team"
+        rsaPrivateKey: "" # TODO: base64 인코딩된 RSA 키 필요 (openssl genrsa 2048 | base64)
+        encryptionPrimaryKey: ""      # TODO: 32자 랜덤 문자열
+        encryptionDeterministicKey: "" # TODO: 32자 랜덤 문자열
+        encryptionKeyDerivationSalt: "" # TODO: 32자 랜덤 문자열
+
+    front:
+      service:
+        type: ClusterIP
+        port: 80
+      ingress:
+        enabled: false # 별도 ingress.yaml로 관리
+
+    api:
+      service:
+        type: ClusterIP
+        port: 3000
+      ingress:
+        enabled: false # 별도 ingress.yaml로 관리
+
+    postgresql:
+      enabled: true
+      auth:
+        postgresPassword: "db-password" # TODO: Secret으로 교체
+        username: lago
+        password: "db-password"
+        database: lago
+
+    redis:
+      enabled: true
+      auth:
+        enabled: false
