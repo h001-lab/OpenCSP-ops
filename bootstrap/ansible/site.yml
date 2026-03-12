@@ -3,7 +3,7 @@
   hosts: all
   become: true
   vars:
-    k3s_version: "v1.29.3+k3s1"
+    k3s_version: "v1.30.5+k3s1"
     netbird_setup_key: "{{ lookup('env', 'NETBIRD_KEY') }}"
     github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}" # contents write 권한 필요
 
