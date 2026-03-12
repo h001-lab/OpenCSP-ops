@@ -50,7 +50,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://getlago.github.io/lago-helm-charts
+  url: https://charts.getlago.com
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository

@@ -24,26 +24,24 @@ spec:
       namespace: flux-system
   values:
     zitadel:
-      masterkey: "MasterkeyNeedsToBeChanged!1234" # TODO: Secret으로 교체
+      masterkey: "MasterkeyNeedsToBeChanged!1234"
       configmapConfig:
         ExternalDomain: zitadel.avgmax.team
         ExternalPort: 443
         ExternalSecure: true
         TLS:
-          Enabled: false # ingress에서 TLS 처리
-
-    replicaCount: 1
-
-    service:
-      type: ClusterIP
-      port: 8080
-
-    ingress:
-      enabled: false # 별도 ingress.yaml로 관리
-
-    postgres:
-      # zitadel 차트 내장 postgres 미사용, 외부 DB 권장
-      # enabled: false
-
-    # 내장 CockroachDB 또는 PostgreSQL 사용 시
-    # https://github.com/zitadel/zitadel-charts/tree/main/charts/zitadel#database
+          Enabled: false
+      secretConfig:
+        Database:
+          Postgres:
+            User:
+              Password: "db-password"
+            Admin:
+              Password: "db-password"
+    postgresql:
+      enabled: true
+      auth:
+        postgresPassword: "db-password"
+        username: zitadel
+        password: "db-password"
+        database: zitadel
