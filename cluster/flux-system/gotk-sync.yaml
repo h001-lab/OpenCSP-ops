@@ -11,7 +11,7 @@ spec:
     branch: main
   secretRef:
     name: flux-system
-  url: https://github.com/h001-lab/OpenCSP-ops.git
+  url: https://github.com/h001-lab/OpenCSP-core.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
