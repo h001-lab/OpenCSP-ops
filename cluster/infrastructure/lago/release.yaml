@@ -22,14 +22,15 @@ spec:
   dependsOn:
     - name: cert-manager
       namespace: flux-system
+  valuesFrom:
+    - kind: Secret
+      name: lago-secrets
+      valuesKey: values.yaml
+
   values:
     lago:
       apiUrl: "https://lago-api.avgmax.team"
       frontUrl: "https://lago.avgmax.team"
-      rsaPrivateKey: "" # TODO: base64 인코딩된 RSA 키 필요 (openssl genrsa 2048 | base64)
-      encryptionPrimaryKey: ""      # TODO: 32자 랜덤 문자열
-      encryptionDeterministicKey: "" # TODO: 32자 랜덤 문자열
-      encryptionKeyDerivationSalt: "" # TODO: 32자 랜덤 문자열
 
     front:
       service:
@@ -48,9 +49,7 @@ spec:
     postgresql:
       enabled: true
       auth:
-        postgresPassword: "db-password" # TODO: Secret으로 교체
         username: lago
-        password: "db-password"
         database: lago
 
     redis:

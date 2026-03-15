@@ -10,8 +10,10 @@ resources:
   - semaphore/ingress.yaml
   - tofu-controller/release.yaml
   - zitadel/namespace.yaml
+  - zitadel/secret.yaml
   - zitadel/release.yaml
   - zitadel/ingress.yaml
   - lago/namespace.yaml
+  - lago/secret.yaml
   - lago/release.yaml
   - lago/ingress.yaml

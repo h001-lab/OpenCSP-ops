@@ -22,26 +22,21 @@ spec:
   dependsOn:
     - name: cert-manager
       namespace: flux-system
+  valuesFrom:
+    - kind: Secret
+      name: zitadel-secrets
+      valuesKey: values.yaml
+
   values:
     zitadel:
-      masterkey: "MasterkeyNeedsToBeChanged!1234"
       configmapConfig:
         ExternalDomain: zitadel.avgmax.team
         ExternalPort: 443
         ExternalSecure: true
         TLS:
           Enabled: false
-      secretConfig:
-        Database:
-          Postgres:
-            User:
-              Password: "db-password"
-            Admin:
-              Password: "db-password"
     postgresql:
       enabled: true
       auth:
-        postgresPassword: "db-password"
         username: zitadel
-        password: "db-password"
         database: zitadel
