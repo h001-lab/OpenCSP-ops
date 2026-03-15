@@ -26,7 +26,10 @@ spec:
     k8sServiceHost: "192.168.11.50"
     k8sServicePort: 6443
     kubeProxyReplacement: "true"
-    
+
+    nodePort:
+      bindProtection: false
+
     k8s:
       requireIPv4PodCIDR: true
 
@@ -37,8 +40,9 @@ spec:
     bpf:
       extraArgs:
         - "-Wno-macro-redefined"
+      lbExternalClusterIP: true
 
-    devices: ""
+    devices: "eth+"
     installIptablesRules: true
 
     ipam:
@@ -53,9 +57,7 @@ spec:
       ingressStatusAddress: "192.168.11.50"
       service:
         type: NodePort
-        nodePorts:
-          http: 30080
-          https: 30443
+        nodePort: 30443
       proxyProtocol: false
     envoy:
       enabled: true
