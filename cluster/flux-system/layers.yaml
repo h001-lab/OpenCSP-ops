@@ -1,9 +1,26 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: cluster-system-crds
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./cluster/system/crds
+  prune: false  # CRD는 함부로 삭제되지 않도록
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  timeout: 5m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: cluster-system-base
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster-system-crds
   interval: 10m
   path: ./cluster/system/base
   prune: true

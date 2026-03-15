@@ -35,6 +35,10 @@ spec:
         ExternalSecure: true
         TLS:
           Enabled: false
+        Database:
+          Postgres:
+            Host: zitadel-postgresql
+            Port: 5432
     postgresql:
       enabled: true
       auth:

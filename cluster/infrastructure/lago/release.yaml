@@ -28,9 +28,12 @@ spec:
       valuesKey: values.yaml
 
   values:
-    lago:
-      apiUrl: "https://lago-api.avgmax.team"
-      frontUrl: "https://lago.avgmax.team"
+    global:
+      databaseUrl: "postgresql://lago:lago@lago-postgresql/lago"
+      redisUrl: "redis://lago-redis:6379"
+      
+    apiUrl: "https://lago-api.avgmax.team"
+    frontUrl: "https://lago.avgmax.team"
 
     front:
       service:
