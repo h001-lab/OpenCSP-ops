@@ -2,3 +2,6 @@ collections:
   - name: https://github.com/h001-lab/OpenCSP-modules.git#/ansible/k3s-node
     type: git
     version: main
+  - name: https://github.com/h001-lab/OpenCSP-modules.git#/ansible/client-vm
+    type: git
+    version: main

@@ -1,7 +1,22 @@
-module "ops_cluster" {
+
+
+
+
+# VMs inventory 생성
+resource "local_file" "ansible_inventory_vms" {
+  filename = "../../ansible/inventory/vms.ini"
+
+  content = templatefile("${path.module}/../templates/inventory_vms.ini.tpl", {
+    nodes    = module.test-vms
+    user     = var.ansible_user
+    key_file = var.ansible_ssh_key_path
+  })
+}
+
+module "test-vms" {
   source = "git::https://github.com/h001-lab/OpenCSP-modules.git//terraform/proxmox/vm?ref=main"
 
-  for_each = var.all_vms
+  for_each = var.test_vms
 
   # 변수 매핑
   vm_name   = each.key
@@ -32,14 +47,3 @@ module "ops_cluster" {
   vm_network_bridge = var.network_bridge
 }
 
-# 템플릿 파일을 사용하여 Inventory 생성
-resource "local_file" "ansible_inventory" {
-  filename = "../ansible/inventory/k3s.ini"
-
-  content = templatefile("${path.module}/templates/inventory.ini.tpl", {
-    # 템플릿에 넘겨줄 변수들
-    nodes    = module.ops_cluster
-    user     = var.ansible_user
-    key_file = var.ansible_ssh_key_path
-  })
-}

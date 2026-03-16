@@ -36,8 +36,13 @@ A repository for building the base infrastructure (Proxmox VM + K3s) to operate 
     ```
 3. Run the playbook to set up the K3s cluster and configure GitOps.
     ```sh
-    ansible-playbook site.yml -e "netbird_setup_key=YOUR_ACTUAL_SETUP_KEY" -e "github_token=ghp_YOUR_TOKEN_HERE"
+    # K3s Nodes
+    ansible-playbook site.yml --limit k3s_nodes -e "netbird_setup_key=YOUR_ACTUAL_SETUP_KEY" -e "github_token=ghp_YOUR_TOKEN_HERE"
+
+    # Teleport Agent
+    ansible-playbook site.yml --limit test_vms -e "TELEPORT_PROXY_ADDR=teleport.domain.com:443" -e "TELEPORT_JOIN_TOKEN=token"
     ```
+
     - Once the playbook completes, FluxCD-related files will be created under `cluster/` (in `flux-system`). All subsequent internal infrastructure configuration should be written in `./cluster`.
 
 

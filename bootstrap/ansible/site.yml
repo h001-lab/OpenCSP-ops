@@ -1,6 +1,6 @@
 ---
 - name: Ops Cluster Provisioning
-  hosts: all
+  hosts: k3s_nodes
   become: true
   vars:
     k3s_version: "v1.30.5+k3s1"
@@ -13,9 +13,22 @@
     - role: opencsp.k3s_node.k3s
     - role: opencsp.k3s_node.cilium_prep
     - role: opencsp.k3s_node.cilium
-    - role: opencsp.k3s_node.flux_bootstrap 
+    - role: opencsp.k3s_node.flux_bootstrap
       vars:
         github_user: "h001-lab"
         github_repo: "OpenCSP-core"
         flux_path: "./cluster"
         github_token: "{{ github_token }}"
+
+- name: VMs Provisioning
+  hosts: test_vms
+  become: true
+  vars:
+    teleport_version: "17"
+    teleport_proxy_addr: "{{ TELEPORT_PROXY_ADDR }}"
+    teleport_auth_token: "{{ TELEPORT_JOIN_TOKEN }}"
+    teleport_node_name: "{{ node_name }}" # inventory_hostname 또는 다른 변수로 설정 가능
+    teleport_labels: {}
+
+  roles:
+    - role: opencsp.client_vm.teleport_agent
