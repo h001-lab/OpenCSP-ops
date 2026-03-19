@@ -11,10 +11,11 @@ spec:
   upgrade:
     remediation:
       retries: 3
+      remediateLastFailure: true
   chart:
     spec:
       chart: lago
-      version: "1.27.1" # 최신 버전 확인 필요
+      version: "1.27.1"
       sourceRef:
         kind: HelmRepository
         name: lago
@@ -22,16 +23,16 @@ spec:
   dependsOn:
     - name: cert-manager
       namespace: flux-system
+    - name: lago-postgresql
+      namespace: lago
+    - name: lago-redis
+      namespace: lago
   valuesFrom:
     - kind: Secret
-      name: lago-secrets
+      name: lago-chart-values
       valuesKey: values.yaml
 
   values:
-    global:
-      databaseUrl: "postgresql://lago:lago@lago-postgresql/lago"
-      redisUrl: "redis://lago-redis:6379"
-      
     apiUrl: "https://lago-api.avgmax.team"
     frontUrl: "https://lago.avgmax.team"
 
@@ -40,22 +41,73 @@ spec:
         type: ClusterIP
         port: 80
       ingress:
-        enabled: false # 별도 ingress.yaml로 관리
+        enabled: false
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
 
     api:
       service:
         type: ClusterIP
         port: 3000
       ingress:
-        enabled: false # 별도 ingress.yaml로 관리
+        enabled: false
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+
+    worker:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+
+    clockWorker:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+
+    billingWorker:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+
+    paymentWorker:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+
+    webhookWorker:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+
+    eventsWorker:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+
+    pdfWorker:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
+
+    pdf:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 128Mi
 
     postgresql:
-      enabled: true
-      auth:
-        username: lago
-        database: lago
+      enabled: false
 
     redis:
-      enabled: true
-      auth:
-        enabled: false
+      enabled: false

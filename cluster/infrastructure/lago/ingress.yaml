@@ -20,7 +20,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: lago-front
+            name: lago-front-svc
             port:
               number: 80
 ---
@@ -46,6 +46,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: lago-api
+            name: lago-api-svc
             port:
               number: 3000

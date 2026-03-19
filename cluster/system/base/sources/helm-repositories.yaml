@@ -60,3 +60,13 @@ metadata:
 spec:
   interval: 24h
   url: https://flux-iac.github.io/tofu-controller/
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: bitnami
+  namespace: flux-system
+spec:
+  type: oci
+  interval: 24h
+  url: oci://registry-1.docker.io/bitnamicharts

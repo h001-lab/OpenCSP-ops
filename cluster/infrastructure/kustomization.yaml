@@ -11,9 +11,13 @@ resources:
   - tofu-controller/release.yaml
   - zitadel/namespace.yaml
   - zitadel/secret.yaml
+  - zitadel/postgresql.yaml
   - zitadel/release.yaml
   - zitadel/ingress.yaml
+  # - zitadel/gateway.yaml
   - lago/namespace.yaml
   - lago/secret.yaml
+  - lago/postgresql.yaml
+  - lago/redis.yaml
   - lago/release.yaml
   - lago/ingress.yaml

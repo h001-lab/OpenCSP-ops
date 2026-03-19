@@ -1,0 +1,51 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: zitadel-gateway
+  namespace: zitadel
+  annotations:
+    cert-manager.io/cluster-issuer: "selfsigned-issuer"
+spec:
+  gatewayClassName: cilium
+  listeners:
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: zitadel.avgmax.team
+      tls:
+        certificateRefs:
+          - name: zitadel-tls
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: GRPCRoute
+metadata:
+  name: zitadel-grpc
+  namespace: zitadel
+spec:
+  parentRefs:
+    - name: zitadel-gateway
+  hostnames:
+    - zitadel.avgmax.team
+  rules:
+    - backendRefs:
+        - name: zitadel
+          port: 8080
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: zitadel-http
+  namespace: zitadel
+spec:
+  parentRefs:
+    - name: zitadel-gateway
+  hostnames:
+    - zitadel.avgmax.team
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /ui/v2/login
+      backendRefs:
+        - name: zitadel-login
+          port: 3000

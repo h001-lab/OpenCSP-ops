@@ -50,6 +50,11 @@ spec:
       operator:
         clusterPoolIPv4PodCIDRList: ["10.42.0.0/16"]
 
+    gatewayAPI:
+      enabled: true
+      enableAppProtocol: true
+      enableAlpn: true
+
     ingressController:
       enabled: true
       default: true
