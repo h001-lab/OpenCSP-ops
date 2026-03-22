@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: opencsp-modules
+  namespace: flux-system
+spec:
+  interval: 5m
+  url: https://github.com/h001-lab/OpenCSP-modules.git
+  ref:
+    branch: main
