@@ -26,10 +26,8 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-
 # ansible
 inventory.ini
-
 
 # Kubernetes & Auth Keys
 *.pem
@@ -38,11 +36,6 @@ inventory.ini
 kubeconfig
 config
 .kube/
-
-# Secret Files
-# secrets.yaml
-# secret.yaml
-# *.secret.yaml
 
 # Editor
 .DS_Store
