@@ -1,5 +1,5 @@
 module "test-vms" {
-  source = "git::https://github.com/h001-lab/OpenCSP-modules.git//terraform/proxmox/vm?ref=main"
+  source = "git::https://github.com/h001-lab/OpenCSP-modules.git//terraform/proxmox/vm?ref=v0.1.0"
 
   for_each = var.test_vms
 
@@ -21,15 +21,16 @@ module "test-vms" {
   pve_host_address         = var.pve_host_address
   pve_ssh_user             = var.pve_ssh_user
   pve_ssh_private_key_path = var.pve_ssh_private_key_path
-  target_node              = var.target_node
-  template_name            = var.template_name
-  vm_ssh_public_key        = var.vm_ssh_public_key
+
+  target_node       = var.target_node
+  template_name     = var.template_name
+  vm_ssh_public_key = var.vm_ssh_public_key
 
   vm_network_bridge = var.network_bridge
 }
 
 resource "local_file" "ansible_inventory_vms" {
-  filename = "../ansible/inventory/vms.ini"
+  filename = "../../../ansible/inventory/vms.ini"
 
   content = templatefile("${path.module}/../../templates/inventory_vms.ini.tpl", {
     nodes    = module.test-vms

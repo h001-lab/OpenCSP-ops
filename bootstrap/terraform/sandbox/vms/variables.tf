@@ -49,7 +49,7 @@ variable "test_vms" {
 }
 
 variable "vm_password" {
-  type = string
+  type      = string
   sensitive = true
-  default = null
+  default   = null
 }

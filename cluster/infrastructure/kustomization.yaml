@@ -9,7 +9,6 @@ resources:
   - semaphore/release.yaml
   - semaphore/ingress.yaml
   - tofu-controller/release.yaml
-  - tofu-controller/gitrepository.yaml
   - tofu-controller/secret.yaml
   - zitadel/namespace.yaml
   - zitadel/secret.yaml
