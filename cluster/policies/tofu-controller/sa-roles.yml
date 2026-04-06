@@ -1,0 +1,23 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: terraform-output-reader
+  namespace: flux-system
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: terraform-output-reader
+  namespace: flux-system
+subjects:
+  - kind: ServiceAccount
+    name: terraform-manager
+    namespace: flux-system
+roleRef:
+  kind: Role
+  name: terraform-output-reader
+  apiGroup: rbac.authorization.k8s.io

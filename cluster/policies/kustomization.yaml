@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - tofu-controller/sa-terraform-manager.yaml
   - tofu-controller/sa-token.yaml
+  - tofu-controller/sa-roles.yml
