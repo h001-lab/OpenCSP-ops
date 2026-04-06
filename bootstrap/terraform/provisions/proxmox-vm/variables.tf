@@ -22,6 +22,9 @@ variable "snippet_storage_pool" { default = "local" }
 variable "vm_ssh_public_key" {
   default = null
 }
+variable "opencsp_ansible_public_key" {
+  default = null
+}
 variable "vm_password" {
   sensitive = true
   default   = null

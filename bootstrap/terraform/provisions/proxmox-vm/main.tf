@@ -30,6 +30,7 @@ module "vm" {
   storage_pool             = var.storage_pool
   snippet_storage_pool     = var.snippet_storage_pool
   vm_ssh_public_key        = var.vm_ssh_public_key
+  opencsp_ansible_public_key = var.opencsp_ansible_public_key
   vm_password              = var.vm_password
   pve_host_address         = var.pve_host_address
   pve_ssh_user             = var.pve_ssh_user

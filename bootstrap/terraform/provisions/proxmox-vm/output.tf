@@ -7,13 +7,6 @@ output "vm_ip" {
   value       = module.vm.vm_ip
 }
 
-output "vm_ssh_public_key" {
-  description = "VM에 등록된 SSH public key (외부 주입 또는 자동 생성)"
-  value       = module.vm.ssh_public_key
-}
-
-output "vm_ssh_private_key" {
-  description = "VM 접속용 SSH private key (자동 생성한 경우에만 유효)"
-  value       = module.vm.ssh_private_key
-  sensitive   = true
+output "vm_user" {
+  value = module.vm.vm_user
 }
