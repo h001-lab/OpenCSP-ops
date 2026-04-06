@@ -19,7 +19,9 @@ variable "storage_pool" { default = "local-lvm" }
 variable "snippet_storage_pool" { default = "local" }
 
 # K3S Secret
-variable "vm_ssh_public_key" {}
+variable "vm_ssh_public_key" {
+  default = null
+}
 variable "vm_password" {
   sensitive = true
   default   = null
