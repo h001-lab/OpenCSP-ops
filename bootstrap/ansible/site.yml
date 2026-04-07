@@ -20,6 +20,21 @@
         flux_path: "./cluster"
         github_token: "{{ github_token }}"
 
+- name: Wait for VM to be ready
+  hosts: test_vms
+  gather_facts: false
+  tasks:
+    - name: Wait for SSH connection
+      wait_for_connection:
+        delay: 10
+        timeout: 300
+
+    - name: Wait for cloud-init to complete
+      raw: cloud-init status --wait
+      register: cloud_init_result
+      failed_when: cloud_init_result.rc not in [0, 2]
+      changed_when: false
+
 - name: VMs Provisioning
   hosts: test_vms
   become: true
@@ -27,7 +42,7 @@
     teleport_version: "17"
     teleport_proxy_addr: "{{ TELEPORT_PROXY_ADDR }}"
     teleport_auth_token: "{{ TELEPORT_JOIN_TOKEN }}"
-    teleport_node_name: "{{ node_name }}" # inventory_hostname 또는 다른 변수로 설정 가능
+    teleport_node_name: "{{ node_name }}"
     teleport_labels: {}
 
   roles:
